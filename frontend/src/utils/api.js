@@ -97,13 +97,14 @@ class Api {
       'authorization': `Bearer ${token}`
     }
   }
-
 }
 
+const token = localStorage.getItem("token");
 const api = new Api ({
-  url: 'http://localhost:3000',
+  url: 'https://mesto.fevralkolesnikova.nomoreparties.sbs',
   headers: {
-    "Content-type": "application/json"
+    "Content-type": "application/json",
+    'authorization': `Bearer ${token}`
   }
 });
 

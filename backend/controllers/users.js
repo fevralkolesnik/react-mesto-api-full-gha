@@ -11,7 +11,7 @@ const duplicateKeyError = 11000;
 
 const getUsers = (req, res, next) => {
   User.find({})
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => res.status(200).send(user))
     .catch((err) => {
       next(err);
     });
@@ -22,7 +22,7 @@ const getUser = (req, res, next) => {
 
   User.findById(userId)
     .orFail()
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err instanceof mongoose.Error.DocumentNotFoundError) {
         return next(new DocumentNotFoundError('Пользователь по указанному _id не найден'));
@@ -38,11 +38,11 @@ const getMyUser = (req, res, next) => {
   User.findById(req.user._id)
     .orFail(() => {
       next(new UnauthorizedError('Пользователь не авторизован'));
-      console.log(1);
     })
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => {
+      res.status(200).send(user);
+    })
     .catch((err) => {
-      console.log(2);
       next(err);
     });
 };
@@ -93,18 +93,14 @@ const login = (req, res, next) => {
         return next(new UnauthorizedError('Неправильные почта или пароль'));
       }
       const token = signToken({ _id: user._id });
-      return res.cookie('token', token, {
-        maxAge: 604800,
-        httpOnly: true,
-        secure: true,
-      }).status(200).send({ token });
+      return res.status(200).send({ token });
     })
     .catch((err) => next(err));
 };
 
 const updateUser = (req, res, next) => {
   User.findByIdAndUpdate(req.user._id, req.body, { new: true, runValidators: true })
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
         return next(new ValidationError('Переданы некорректные данные при обновлении пользователя'));
@@ -115,7 +111,7 @@ const updateUser = (req, res, next) => {
 
 const updateAvatarUser = (req, res, next) => {
   User.findByIdAndUpdate(req.user._id, req.body, { new: true, runValidators: true })
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
         return next(new ValidationError('Переданы некорректные данные при обновлении аватара пользователя'));

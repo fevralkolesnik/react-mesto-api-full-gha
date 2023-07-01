@@ -57,10 +57,10 @@ export default function App() {
   function handleTokenCheck() {
     const token = localStorage.getItem("token");
     if (token) {
-      auth.getContent(token)
+      api.getUserInfo()
       .then((res) => {
         if (res) {
-          handleLoggedIn(res.data.email);
+          handleLoggedIn(res.email);
           navigate("/", { replace: true });
         }
       })
@@ -74,7 +74,6 @@ export default function App() {
     auth
       .authorize(email, password)
       .then((res) => {
-        console.log(res.token);
         localStorage.setItem("token", res.token);
         api.setToken(res.token);
         handleLoggedIn(email);
@@ -107,13 +106,6 @@ export default function App() {
     api
       .getUserInfo()
       .then((data) => {
-        // setCurrentUser((user) => ({
-        //   ...user,
-        //   name: data.name,
-        //   about: data.about,
-        //   avatar: data.avatar,
-        //   _id: data._id,
-        // }));
         setCurrentUser({
           ...currentUser,
           name: data.name,
@@ -164,7 +156,7 @@ export default function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    const isLiked = card.likes.some((i) => i === currentUser._id);
 
     api
       .changeLikeCardStatus(card._id, !isLiked)
