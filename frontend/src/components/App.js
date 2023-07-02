@@ -120,6 +120,7 @@ export default function App() {
     api
       .getAllCards()
       .then((data) => {
+        data.reverse();
         setCards(data);
       })
       .catch((err) => {
