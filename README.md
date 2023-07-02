@@ -9,7 +9,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 51.250.14.151
+IP 51.250.14.151
 
 Frontend https://front.mesto.fevralkolesni.nomoreparties.sbs
 
