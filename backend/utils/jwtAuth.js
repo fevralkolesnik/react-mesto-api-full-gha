@@ -1,13 +1,13 @@
 const jwt = require('jsonwebtoken');
 
-const SECRET_KEY = 'very-secret-key';
+const { NODE_ENV, JWT_SECRET } = process.env;
 
 function signToken(payload) {
-  return jwt.sign(payload, SECRET_KEY, { expiresIn: '7d' });
+  return jwt.sign(payload, NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key', { expiresIn: '7d' });
 }
 
 function checkToken(token) {
-  return jwt.verify(token, SECRET_KEY);
+  return jwt.verify(token, JWT_SECRET);
 }
 
 module.exports = {
