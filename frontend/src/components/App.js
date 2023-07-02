@@ -125,10 +125,12 @@ export default function App() {
       .catch((err) => {
         console.log(`Произошла ошибка: ${err}`);
       });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn]);
 
   useEffect(() => {
     handleTokenCheck();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleEditProfileClick() {
@@ -143,9 +145,10 @@ export default function App() {
     setIsEditAvatarPopup(true);
   }
 
-  function handleInfoTooltip() {
-    setIsInfoTooltipOpen(true);
-  }
+
+  // function handleInfoTooltip() {
+  //   setIsInfoTooltipOpen(true);
+  // }
 
   // function handleCardDeleteClick () {
   //   setIsDeleteCardOpen(true);
